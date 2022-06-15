@@ -1,6 +1,7 @@
 package com.breatheProject.Breathe.Project.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,10 +28,18 @@ public class ProductService {
 	}
 	
 	public Product getproductById(int id) {
+		Optional<Product> product = repository.findById(id);
+		if(product.isEmpty()) {
+			throw new NullPointerException("The ID you're trying to search is non existent");
+		}
 		return repository.findById(id).orElse(null);
 	}
 	
 	public Product getproductByName(String name) {
+		Product product = repository.findByName(name);
+		if(product == null) {
+			throw new NullPointerException("The name you're trying to search is non existent");
+		}
 		return repository.findByName(name);
 	}
 	
